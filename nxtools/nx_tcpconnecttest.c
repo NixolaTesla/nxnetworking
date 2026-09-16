@@ -37,7 +37,17 @@ int main(int argc, char *argv[]){
 	struct sockaddr_in server_address;
 	server_address.sin_family = AF_INET;
 	server_address.sin_port = htons(port);
-	inet_pton(AF_INET, argv[1], &server_address.sin_addr);
+	int pton_result = inet_pton(AF_INET, argv[1], &server_address.sin_addr);
+
+	if(pton_result == 0){
+		printf("invalid IP address");
+		exit(1);
+	}
+
+	else if(pton_result < 0){
+		perror("inet_pton");
+		exit(1);
+	}
 
 	// connection
 	
@@ -46,6 +56,11 @@ int main(int argc, char *argv[]){
 	if(connection != -1){
 		printf("connection established at %s at port %s, seq=%d\n", argv[1], argv[2], count);
 		count++;
+	}
+
+	else{
+		printf("Connection failed.");
+		exit(1);
 	}
 
       }
