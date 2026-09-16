@@ -53,15 +53,16 @@ int main(int argc, char *argv[]){
 	
 	int connection = connect(socket_thing, (struct sockaddr *) &server_address, sizeof(server_address));
 
-	if(connection != -1){
+	if(connection == -1){
+		printf("connection failed.\n");
+	}
+
+	else{
 		printf("connection established at %s at port %s, seq=%d\n", argv[1], argv[2], count);
 		count++;
 	}
 
-	else{
-		printf("Connection failed.");
-		exit(1);
-	}
+	close(socket_thing);
 
       }
 
